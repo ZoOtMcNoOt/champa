@@ -1,0 +1,92 @@
+.timelineWrap {
+  display: grid;
+  gap: 1.3rem;
+}
+
+.dayGroup {
+  padding: 1rem;
+}
+
+.dayHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.dateTitle {
+  margin: 0;
+  font-family: var(--font-heading), serif;
+  color: #5f2b42;
+  font-size: clamp(1.25rem, 2.2vw, 1.8rem);
+}
+
+.count {
+  color: #9d5776;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.tile {
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #ffe1eb;
+}
+
+.media {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+  background: #f7ecf1;
+}
+
+.meta {
+  padding: 0.65rem 0.7rem 0.8rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.caption {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #573244;
+  line-height: 1.35;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.tag {
+  font-size: 0.74rem;
+  color: #8d4d6a;
+  background: #fff4f8;
+  border: 1px solid #ffd7e6;
+  border-radius: 999px;
+  padding: 0.16rem 0.5rem;
+}
+
+@media (max-width: 950px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

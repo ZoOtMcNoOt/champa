@@ -1,0 +1,16 @@
+.header {
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: #5d2a41;
+}
+
+.description {
+  margin: 0.6rem 0 0;
+  color: #593849;
+  line-height: 1.6;
+}

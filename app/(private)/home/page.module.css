@@ -1,0 +1,108 @@
+.hero {
+  padding: clamp(1.1rem, 3vw, 2rem);
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2rem, 4.8vw, 3.2rem);
+  color: #5a2740;
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 720px;
+  line-height: 1.7;
+  color: #5b3747;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.statCard {
+  padding: 0.95rem 0.85rem;
+  border-radius: 16px;
+  background: #fff7f1;
+  border: 1px solid #ffe5d4;
+}
+
+.statLabel {
+  margin: 0;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: #9e5b75;
+}
+
+.statValue {
+  margin: 0.28rem 0 0;
+  font-weight: 800;
+  color: #572739;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1rem;
+}
+
+.featureCard {
+  padding: 1rem;
+}
+
+.featureTitle {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-heading), serif;
+  font-size: 1.6rem;
+  color: #57263f;
+}
+
+.featureBody {
+  margin: 0;
+  line-height: 1.6;
+  color: #5d384a;
+}
+
+.memoryPreview {
+  margin-top: 0.9rem;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #ffdce8;
+}
+
+.memoryMedia {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+}
+
+.meter {
+  margin-top: 0.85rem;
+  height: 14px;
+  border-radius: 999px;
+  background: #ffe4ed;
+  overflow: hidden;
+}
+
+.meterFill {
+  width: 83%;
+  height: 100%;
+  background: linear-gradient(90deg, #ef6f9f, #f7afca);
+}
+
+@media (max-width: 900px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+}

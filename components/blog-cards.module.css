@@ -1,0 +1,54 @@
+.stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.post {
+  padding: 1rem 1rem 1.2rem;
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.date {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #9e5576;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #5e2c42;
+  font-family: var(--font-heading), serif;
+}
+
+.body {
+  margin: 0;
+  line-height: 1.6;
+  color: #523142;
+}
+
+.meta {
+  margin-top: 0.7rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.chip {
+  font-size: 0.74rem;
+  background: #fff0f6;
+  border: 1px solid #ffd8e7;
+  color: #8f4b69;
+  border-radius: 999px;
+  padding: 0.16rem 0.5rem;
+}
