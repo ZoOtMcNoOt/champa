@@ -3,6 +3,15 @@
   padding: 1.2rem 0 2.5rem;
 }
 
+.fromEnvelope .topbar {
+  animation: topbar-arrive 560ms cubic-bezier(0.22, 0.9, 0.28, 1) both;
+}
+
+.fromEnvelope .main {
+  transform-origin: center top;
+  animation: main-maximize 760ms cubic-bezier(0.18, 0.9, 0.22, 1) 70ms both;
+}
+
 .topbar {
   display: flex;
   align-items: center;
@@ -62,6 +71,32 @@
   margin: 0 auto;
 }
 
+@keyframes main-maximize {
+  from {
+    opacity: 0;
+    transform: translateY(58px) scale(0.86);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes topbar-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @media (max-width: 700px) {
   .topbar {
     flex-direction: column;
@@ -71,5 +106,12 @@
 
   .main {
     width: min(1100px, calc(100% - 1.2rem));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fromEnvelope .topbar,
+  .fromEnvelope .main {
+    animation: none;
   }
 }

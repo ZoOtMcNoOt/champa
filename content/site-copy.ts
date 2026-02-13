@@ -6,7 +6,7 @@ export const siteCopy = {
   heroSubtitle:
     "A purring timeline of my best memories, written by me (the fluffy boss) for the human I adore most.",
   invitationText:
-    "You are invited to the coziest private memory album. Enter the secret phrase and open my love letter.",
+    "You are invited to the coziest private memory album. Enter the secret phrase and open my letters to you!",
   timelineIntro:
     "Every date is one more tiny love letter from me to you. Scroll slowly and collect all the whisker moments.",
   blogIntro:
