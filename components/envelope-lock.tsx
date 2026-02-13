@@ -67,7 +67,7 @@ export function EnvelopeLock() {
                 <div className={styles.letter}>
                   <p className={styles.paperText}>
                     Dear {siteCopy.recipientName}, I tucked all of my best memories in this letter just for you.
-                    Type the secret phrase and I will open it with my most dramatic paw flourish.
+                    Type the secret phrase and I will open it!!!
                   </p>
                   <form className={styles.form} onSubmit={handleSubmit}>
                     <label htmlFor="password" className="sr-only">
