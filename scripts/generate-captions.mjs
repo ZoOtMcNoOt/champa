@@ -11,11 +11,33 @@ const projectRoot = process.cwd();
 const manifestPath = path.join(projectRoot, "content", "media-manifest.json");
 const outputPath = path.join(projectRoot, "content", "captions.generated.json");
 const statePath = path.join(projectRoot, "scripts", "state.json");
-const mediaDir = path.join(projectRoot, "champa-resources");
 const thumbnailDir = path.join(projectRoot, "scripts", "video_thumbnails");
 
 const apiKey = process.env.OPENAI_API_KEY;
 const model = process.env.OPENAI_VISION_MODEL || "gpt-4.1-mini";
+
+async function pathExists(targetPath) {
+  try {
+    await fs.access(targetPath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function resolveMediaDir() {
+  const explicit = process.env.MEDIA_DIR?.trim();
+  if (explicit) {
+    return path.resolve(projectRoot, explicit);
+  }
+
+  const publicMediaDir = path.join(projectRoot, "public", "media");
+  if (await pathExists(publicMediaDir)) {
+    return publicMediaDir;
+  }
+
+  return path.join(projectRoot, "champa-resources");
+}
 
 function parseArgs(argv) {
   const options = {
@@ -203,6 +225,7 @@ async function main() {
     throw new Error("OPENAI_API_KEY is missing. Add it to .env.local or your shell.");
   }
 
+  const mediaDir = await resolveMediaDir();
   const { detail, limit, startAt } = parseArgs(process.argv.slice(2));
   const manifest = await readJson(manifestPath, []);
   if (!Array.isArray(manifest) || manifest.length === 0) {
@@ -219,6 +242,7 @@ async function main() {
   let failed = 0;
 
   console.log(`Starting caption generation with model=${model}, detail=${detail}`);
+  console.log(`Media directory: ${path.relative(projectRoot, mediaDir)}`);
   console.log(`Manifest items: ${manifest.length}`);
   console.log(`ffmpeg available: ${ffmpegReady ? "yes" : "no"}`);
 

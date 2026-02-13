@@ -4,32 +4,7 @@ import { cacheLife, cacheTag } from "next/cache";
 
 import type { MediaItem, TimelineGroup } from "@/lib/types";
 
-const MEDIA_NAME_PATTERN = /^(?<date>\d{4}-\d{2}-\d{2})_(?<index>\d{3})\.(?<ext>jpg|jpeg|mp4)$/i;
 const MANIFEST_PATH = path.join(process.cwd(), "content", "media-manifest.json");
-const MEDIA_DIR = path.join(process.cwd(), "champa-resources");
-
-function extensionToKind(ext: string): "image" | "video" {
-  return ext.toLowerCase() === "mp4" ? "video" : "image";
-}
-
-function parseFilename(name: string): MediaItem | null {
-  const match = MEDIA_NAME_PATTERN.exec(name);
-  if (!match?.groups) {
-    return null;
-  }
-
-  const date = match.groups.date;
-  const index = Number.parseInt(match.groups.index, 10);
-  const ext = match.groups.ext.toLowerCase();
-  return {
-    id: `${date}-${index.toString().padStart(3, "0")}`,
-    filename: name,
-    date,
-    index,
-    kind: extensionToKind(ext),
-    src: `/api/media/${encodeURIComponent(name)}`
-  };
-}
 
 function sortMedia(items: MediaItem[]): MediaItem[] {
   return [...items].sort((a, b) => {
@@ -47,19 +22,19 @@ async function readManifestFile(): Promise<MediaItem[] | null> {
     if (!Array.isArray(parsed)) {
       return null;
     }
-    return sortMedia(parsed);
+    const normalized = parsed.map((item) => {
+      if (!item.src) {
+        return { ...item, src: `/media/${encodeURIComponent(item.filename)}` };
+      }
+      if (item.src.startsWith("/api/media/")) {
+        return { ...item, src: item.src.replace("/api/media/", "/media/") };
+      }
+      return item;
+    });
+    return sortMedia(normalized);
   } catch {
     return null;
   }
-}
-
-async function readMediaDirectory(): Promise<MediaItem[]> {
-  const entries = await fs.readdir(MEDIA_DIR, { withFileTypes: true });
-  const parsed = entries
-    .filter((entry) => entry.isFile())
-    .map((entry) => parseFilename(entry.name))
-    .filter((item): item is MediaItem => Boolean(item));
-  return sortMedia(parsed);
 }
 
 export async function getMediaItems(): Promise<MediaItem[]> {
@@ -67,11 +42,7 @@ export async function getMediaItems(): Promise<MediaItem[]> {
   cacheLife("hours");
   cacheTag("media");
 
-  const manifest = await readManifestFile();
-  if (manifest && manifest.length > 0) {
-    return manifest;
-  }
-  return readMediaDirectory();
+  return (await readManifestFile()) ?? [];
 }
 
 export async function getTimelineGroups(): Promise<TimelineGroup[]> {

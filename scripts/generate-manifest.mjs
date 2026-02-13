@@ -4,9 +4,31 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 const projectRoot = process.cwd();
-const mediaDir = path.join(projectRoot, "champa-resources");
 const outputPath = path.join(projectRoot, "content", "media-manifest.json");
 const filenamePattern = /^(?<date>\d{4}-\d{2}-\d{2})_(?<index>\d{3})\.(?<ext>jpg|jpeg|mp4)$/i;
+
+async function pathExists(targetPath) {
+  try {
+    await fs.access(targetPath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function resolveMediaDir() {
+  const explicit = process.env.MEDIA_DIR?.trim();
+  if (explicit) {
+    return path.resolve(projectRoot, explicit);
+  }
+
+  const publicMediaDir = path.join(projectRoot, "public", "media");
+  if (await pathExists(publicMediaDir)) {
+    return publicMediaDir;
+  }
+
+  return path.join(projectRoot, "champa-resources");
+}
 
 function extensionToKind(ext) {
   return ext.toLowerCase() === "mp4" ? "video" : "image";
@@ -27,7 +49,7 @@ function parseFilename(filename) {
     date,
     index,
     kind: extensionToKind(ext),
-    src: `/api/media/${encodeURIComponent(filename)}`
+    src: `/media/${encodeURIComponent(filename)}`
   };
 }
 
@@ -39,6 +61,7 @@ function sortItems(items) {
 }
 
 async function main() {
+  const mediaDir = await resolveMediaDir();
   const entries = await fs.readdir(mediaDir, { withFileTypes: true });
   const items = entries
     .filter((entry) => entry.isFile())
@@ -55,6 +78,7 @@ async function main() {
   const lastDate = sorted.at(-1)?.date || "n/a";
 
   console.log(`Manifest written: ${path.relative(projectRoot, outputPath)}`);
+  console.log(`Media directory: ${path.relative(projectRoot, mediaDir)}`);
   console.log(`Items: ${sorted.length} (photos: ${photos}, videos: ${videos})`);
   console.log(`Timeline: ${firstDate} -> ${lastDate}`);
 }

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { SESSION_COOKIE_NAME } from "@/lib/auth";
 import { verifySessionTokenEdge } from "@/lib/auth-edge";
 
-const PROTECTED_PREFIXES = ["/home", "/timeline", "/blog", "/api/media"];
+const PROTECTED_PREFIXES = ["/home", "/timeline", "/blog", "/media"];
 
 function isProtectedPath(pathname: string): boolean {
   return PROTECTED_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
@@ -20,7 +20,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (pathname.startsWith("/api/media")) {
+  if (pathname.startsWith("/media")) {
     return NextResponse.json({ ok: false, message: "Unauthorized." }, { status: 401 });
   }
 
@@ -31,5 +31,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/home/:path*", "/timeline/:path*", "/blog/:path*", "/api/media/:path*"]
+  matcher: ["/home/:path*", "/timeline/:path*", "/blog/:path*", "/media/:path*"]
 };
